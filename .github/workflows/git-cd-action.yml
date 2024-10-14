@@ -8,46 +8,34 @@ on:
 
 jobs:
 
-  build:
+  deploy:
+    name: Deploy
+    runs-on: ubuntu-20.04
     env:
       DOCKER_USERNAME: ${{secrets.DOCKER_USERNAME}}
       DOCKER_PASSWORD: ${{secrets.DOCKER_PASSWORD}}
-
-  
-    runs-on: self-hosted
-
+    
     steps:
-      
-      - name: Login Docker Hub
-        run: sudo docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
+      - name: excuting remote ssh commands
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{secrets.AWS_SSH_HOST}}
+          username: ${{secrets.AWS_USERNAME}}
+          key: ${{secrets.AWS_SSH_KEY}}
+          port: ${{secrets.AWS_SSH_PORT}}
+          script_stop: true
+          script: |
+            cd ./actions-runner/compose
+            sudo docker-compose down
+            sudo docker pull kdman/user-service:latest
+            sudo docker pull kdman/public-data-service:latest
+            sudo docker pull kdman/chat-service:latest
+            sudo docker pull kdman/board-service:latest
+            sudo docker pull kdman/api-gateway:latest
+            sudo docker rm -f user-service || true
+            sudo docker rm -f public-data-service || true
+            sudo docker rm -f chat-service || true
+            sudo docker rm -f board-service || true
+            sudo docker rm -f api-gateway || true
+            sudo docker-compose up --remove-orphans -d
 
-      - name: Pull Docker Image (user-service)
-        run: sudo docker pull kdman/user-service:latest
-      - name: Delete Old Docker Container
-        run: sudo docker rm -f user-service || true
-      
-      - name: Pull Docker Image (public-data-service)
-        run: sudo docker pull kdman/public-data-service:latest
-      - name: delete Old Docker Container
-        run: sudo docker rm -f public-data-service || true
-      
-      - name: Pull Docker Image (chat-service)
-        run: sudo docker pull kdman/chat-service:latest
-      - name: delete Old Docker Container
-        run: sudo docker rm -f chat-service || true
-      
-      - name: Pull Docker Image (board-service)
-        run: sudo docker pull kdman/board-service:latest
-      - name: delete Old Docker Container
-        run: sudo docker rm -f board-service || true
-      
-      - name: Pull Docker Image (api-gateway)
-        run: sudo docker pull kdman/api-gateway:latest
-      - name: delete Old Docker Container
-        run: sudo docker rm -f api-gateway || true
-      
-      - name: Run Docker Compose
-        run: sudo docker compose -f ./compose/docker-compose.yml up --remove-orphans -d
-      
-      
-      
