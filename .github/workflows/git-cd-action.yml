@@ -26,7 +26,7 @@ jobs:
           script_stop: true
           script: |
             cd ./actions-runner/compose
-            sudo docker-compose down
+            sudo docker compose down
             sudo docker pull kdman/user-service:latest
             sudo docker pull kdman/public-data-service:latest
             sudo docker pull kdman/chat-service:latest
