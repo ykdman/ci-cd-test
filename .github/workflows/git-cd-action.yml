@@ -26,15 +26,11 @@ jobs:
           script_stop: true
           script: |
             cd ./actions-runner/compose
-            sudo docker compose down
+            sudo docker compose -f ./docker-compose.yml down --remove-orphans
             sudo docker pull kdman/user-service:latest
             sudo docker pull kdman/public-data-service:latest            
             sudo docker pull kdman/board-service:latest
             sudo docker pull kdman/api-gateway:latest
-            sudo docker rm -f user-service || true
-            sudo docker rm -f public-data-service || true
-            sudo docker rm -f board-service || true
-            sudo docker rm -f api-gateway || true
-            sudo docker compose -p down grabbme-be
-            sudo docker compose -f ./docker-compose.yml up --remove-orphans -d
+            sudo docker compose -f ./docker-compose.yml up -d
+
 

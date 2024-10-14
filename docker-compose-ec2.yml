@@ -43,6 +43,11 @@ services:
       - CLIENT_MAIN_URL=${CLIENT_MAIN_URL}
       - CLIENT_SIGNUP_URL=${CLIENT_SIGNUP_URL}
     restart: 'unless-stopped'
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
 
   user-service:
     image: kdman/user-service:latest
@@ -59,6 +64,11 @@ services:
       - MYSQL_USER=${MYSQL_USERNAME}
       - MYSQL_PASSWORD=${MYSQL_PASSWORD}
     restart: 'unless-stopped'
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
 
   public-data-service:
     image: kdman/public-data-service:latest
@@ -75,7 +85,11 @@ services:
       - MYSQL_USER=${MYSQL_USERNAME}
       - MYSQL_PASSWORD=${MYSQL_PASSWORD}
     restart: 'unless-stopped'
-
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
   
   board-service:
     image: kdman/board-service:latest
@@ -93,10 +107,19 @@ services:
       - MYSQL_USER=${MYSQL_USERNAME}
       - MYSQL_PASSWORD=${MYSQL_PASSWORD}
     restart: 'unless-stopped'
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
 
 networks:
   default:
     driver: bridge
+
+
+
+
 chat-service:
     image: kdman/chat-service:latest
     container_name: chat-service
@@ -118,3 +141,4 @@ chat-service:
       - MONGO_URI=${MONGO_URI}
       - MONGO_CHAT_URI=${MONGO_CHAT_URI}
     restart: 'unless-stopped'
+
