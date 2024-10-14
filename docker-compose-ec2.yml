@@ -7,7 +7,7 @@ services:
     depends_on:
       - user-service
       - public-data-service
-      - chat-service
+      # - chat-service
       - board-service
     ports:
       - '3000:3000'
@@ -76,28 +76,7 @@ services:
       - MYSQL_PASSWORD=${MYSQL_PASSWORD}
     restart: 'unless-stopped'
 
-  chat-service:
-    image: kdman/chat-service:latest
-    container_name: chat-service
-    networks:
-      - default
-    env_file:
-      - .env
-    environment:
-      - CHAT_HOST=chat-service
-      - MYSQL_HOST=${MYSQL_HOST}
-      - MYSQL_PORT=${MYSQL_PORT}
-      - MYSQL_DATABASE=${MYSQL_DATABASE}
-      - MYSQL_USER=${MYSQL_USERNAME}
-      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
-      - MONGO_HOST=${MONGO_HOST}
-      - MONGO_PORT=${MONGO_PORT}
-      - MONGO_USERNAME=${MONGO_USERNAME}
-      - MONGO_PASSWORD=${MONGO_PASSWORD}
-      - MONGO_URI=${MONGO_URI}
-      - MONGO_CHAT_URI=${MONGO_CHAT_URI}
-    restart: 'unless-stopped'
-
+  
   board-service:
     image: kdman/board-service:latest
     container_name: board-service
@@ -118,3 +97,24 @@ services:
 networks:
   default:
     driver: bridge
+chat-service:
+    image: kdman/chat-service:latest
+    container_name: chat-service
+    networks:
+      - default
+    env_file:
+      - .env
+    environment:
+      - CHAT_HOST=chat-service
+      - MYSQL_HOST=${MYSQL_HOST}
+      - MYSQL_PORT=${MYSQL_PORT}
+      - MYSQL_DATABASE=${MYSQL_DATABASE}
+      - MYSQL_USER=${MYSQL_USERNAME}
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+      - MONGO_HOST=${MONGO_HOST}
+      - MONGO_PORT=${MONGO_PORT}
+      - MONGO_USERNAME=${MONGO_USERNAME}
+      - MONGO_PASSWORD=${MONGO_PASSWORD}
+      - MONGO_URI=${MONGO_URI}
+      - MONGO_CHAT_URI=${MONGO_CHAT_URI}
+    restart: 'unless-stopped'

@@ -37,5 +37,5 @@ jobs:
             sudo docker rm -f chat-service || true
             sudo docker rm -f board-service || true
             sudo docker rm -f api-gateway || true
-            sudo docker-compose up --remove-orphans -d
+            sudo docker compose -f ./docker-compose.yml up --remove-orphans -d
 
