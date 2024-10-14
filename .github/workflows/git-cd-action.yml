@@ -9,10 +9,19 @@ on:
 jobs:
 
   build:
+    env:
+      DOCKER_USERNAME: ${{secrets.DOCKER_USERNAME}}
+      DOCKER_PASSWORD: ${{secrets.DOCKER_PASSWORD}}
+      REPOSITORY_NAME: ${{github.repository}}
 
+  
     runs-on: self-hosted
 
     steps:
+      
+      - name: Login Docker Hub
+        run: docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
+
       - name: Pull Docker Image (user-service)
         run: docker pull kdman/user-service:latest
       - name: Delete Old Docker Container
