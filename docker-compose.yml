@@ -1,0 +1,136 @@
+version: '3.8'
+
+services:
+  api-gateway:
+    build:
+      context: ./apps/api-gateway
+      dockerfile: Dockerfile
+    container_name: api-gateway
+    depends_on:
+      - user-service
+      - public-data-service
+      - chat-service
+      - board-service
+    volumes:
+      - ./:/usr/src/app
+    ports:
+      - '3000:3000'
+    networks:
+      - default
+    env_file:
+      - .env
+    environment:
+      - USER_HOST=user-service
+      - BOARD_HOST=board-service
+      - PUBLIC_DATA_HOST=public-data-service
+      - CHAT_HOST=chat-service
+      - GATEWAY_PORT=${GATEWAY_PORT}
+      - BOARD_PORT=${BOARD_PORT}
+      - CHAT_PORT=${CHAT_PORT}
+      - USER_PORT=${USER_PORT}
+      - PUBLIC_DATA_PORT=${PUBLIC_DATA_PORT}
+      - CHAT_GATEWAY_PORT=${CHAT_GATEWAY_PORT}
+      - MYSQL_HOST=${MYSQL_HOST}
+      - MYSQL_PORT=${MYSQL_PORT}
+      - MYSQL_DATABASE=${MYSQL_DATABASE}
+      - MYSQL_USER=${MYSQL_USERNAME}
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+      - MONGO_HOST=${MONGO_HOST}
+      - MONGO_PORT=${MONGO_PORT}
+      - MONGO_USERNAME=${MONGO_USERNAME}
+      - MONGO_CHAT_URI=${MONGO_CHAT_URI}
+      - MONGO_PASSWORD=${MONGO_PASSWORD}
+      - GITHUB_CLIENT_ID=${GITHUB_CLIENT_ID}
+      - GITHUB_CLIENT_SECRET=${GITHUB_CLIENT_SECRET}
+      - GITHUB_CALLBACK_URL=${GITHUB_CALLBACK_URL}
+      - JWT_SECRET=${JWT_SECRET}
+      - CLIENT_MAIN_URL=${CLIENT_MAIN_URL}
+      - CLIENT_SIGNUP_URL=${CLIENT_SIGNUP_URL}
+    restart: 'no'
+  user-service:
+    build:
+      context: ./apps/user
+      dockerfile: Dockerfile
+    container_name: user-service
+    volumes:
+      - ./:/usr/src/app
+    networks:
+      - default
+    env_file:
+      - .env
+    environment:
+      - USER_HOST=user-service
+      - MYSQL_HOST=${MYSQL_HOST}
+      - MYSQL_PORT=${MYSQL_PORT}
+      - MYSQL_DATABASE=${MYSQL_DATABASE}
+      - MYSQL_USER=${MYSQL_USERNAME}
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+    restart: 'no'
+  public-data-service:
+    build:
+      context: ./apps/public-data
+      dockerfile: Dockerfile
+    container_name: public-data-service
+    volumes:
+      - ./:/usr/src/app
+    networks:
+      - default
+    env_file:
+      - .env
+    environment:
+      - PUBLIC_DATA_HOST=public-data-service
+      - MYSQL_HOST=${MYSQL_HOST}
+      - MYSQL_PORT=${MYSQL_PORT}
+      - MYSQL_DATABASE=${MYSQL_DATABASE}
+      - MYSQL_USER=${MYSQL_USERNAME}
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+    restart: 'no'
+
+  chat-service:
+    build:
+      context: ./apps/chat
+      dockerfile: Dockerfile
+    container_name: chat-service
+    volumes:
+      - ./:/usr/src/app
+    networks:
+      - default
+    env_file:
+      - .env
+    environment:
+      - CHAT_HOST=chat-service
+      - MYSQL_HOST=${MYSQL_HOST}
+      - MYSQL_PORT=${MYSQL_PORT}
+      - MYSQL_DATABASE=${MYSQL_DATABASE}
+      - MYSQL_USER=${MYSQL_USERNAME}
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+      - MONGO_HOST=${MONGO_HOST}
+      - MONGO_PORT=${MONGO_PORT}
+      - MONGO_USERNAME=${MONGO_USERNAME}
+      - MONGO_PASSWORD=${MONGO_PASSWORD}
+      - MONGO_URI=${MONGO_URI}
+    restart: 'no'
+  board-service:
+    build:
+      context: ./apps/board
+      dockerfile: Dockerfile
+    container_name: board-service
+    volumes:
+      - ./:/usr/src/app
+    networks:
+      - default
+    env_file:
+      - .env
+    environment:
+      - BOARD_HOST=board-service
+      - BOARD_PORT=${BOARD_PORT}
+      - MYSQL_HOST=${MYSQL_HOST}
+      - MYSQL_PORT=${MYSQL_PORT}
+      - MYSQL_DATABASE=${MYSQL_DATABASE}
+      - MYSQL_USER=${MYSQL_USERNAME}
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+    restart: 'no'
+
+networks:
+  default:
+    driver: bridge

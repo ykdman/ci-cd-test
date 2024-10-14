@@ -1,0 +1,49 @@
+name: Docker Image CI
+
+on:
+  push:
+    branches: ['main']
+
+jobs:
+  build:
+    runs-on: ubuntu-20.04
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: Login Docker Hub
+        env:
+          DOCKER_USERNAME: ${{secrets.DOCKER_USERNAME}}
+          DOCKER_PASSWORD: ${{secrets.DOCKER_PASSWORD}}
+        run: docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
+
+      # user-service 빌드 및 푸시
+      - name: build the user-service image
+        run: docker compose -f ./docker-compose.yml build user-service
+      - name: tagging user-service image
+        run: docker tag user-service:latest $DOCKER_USERNAME/user-service:latest
+      - name: push user-service image to Docker Hub
+        run: docker push $DOCKER_USERNAME/user-service:latest
+
+      # public-data-service
+      - name: build the public-data-service image
+        run: docker compose -f ./docker-compose.yml build public-data-service
+      - name: tagging public-data-service image
+        run: docker tag public-data-service:latest $DOCKER_USERNAME/public-data-service:latest
+      - name: push public-data-service image to Docker Hub
+        run: docker push $DOCKER_USERNAME/public-data-service:latest
+
+      # board-service
+      - name: build the board-service image
+        run: docker compose -f ./docker-compose.yml build board-service
+      - name: tagging board-service image
+        run: docker tag board-service:latest $DOCKER_USERNAME/board-service:latest
+      - name: push board-service image to Docker Hun
+        run: docker push $DOCKER_USERNAME/board-service:latest
+
+      # api-gateway
+      - name: build the api-gateway image
+        run: docker compose -f ./docker-compose.yml build api-gateway
+      - name: tagging api-gateway image
+        run: docker tag api-gateway:latest $DOCKER_USERNAME/api-gateway:latest
+      - name: push api-gateway image to Docker Hub
+        run: docker push $DOCKER_USERNAME/api-gateway:latest
