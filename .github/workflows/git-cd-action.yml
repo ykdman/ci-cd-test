@@ -12,7 +12,6 @@ jobs:
     env:
       DOCKER_USERNAME: ${{secrets.DOCKER_USERNAME}}
       DOCKER_PASSWORD: ${{secrets.DOCKER_PASSWORD}}
-      REPOSITORY_NAME: ${{github.repository}}
 
   
     runs-on: self-hosted
@@ -20,32 +19,32 @@ jobs:
     steps:
       
       - name: Login Docker Hub
-        run: docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
+        run: sudo docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
 
       - name: Pull Docker Image (user-service)
-        run: docker pull kdman/user-service:latest
+        run: sudo docker pull kdman/user-service:latest
       - name: Delete Old Docker Container
-        run: docker rm -f user-service || true
+        run: sudo docker rm -f user-service || true
       
       - name: Pull Docker Image (public-data-service)
-        run: docker pull kdman/public-data-service:latest
+        run: sudo docker pull kdman/public-data-service:latest
       - name: delete Old Docker Container
-        run: docker rm -f public-data-service || true
+        run: sudo docker rm -f public-data-service || true
       
       - name: Pull Docker Image (chat-service)
-        run: docker pull kdman/chat-service:latest
+        run: sudo docker pull kdman/chat-service:latest
       - name: delete Old Docker Container
-        run: docker rm -f chat-service || true
+        run: sudo docker rm -f chat-service || true
       
       - name: Pull Docker Image (board-service)
-        run: docker pull kdman/board-service:latest
+        run: sudo docker pull kdman/board-service:latest
       - name: delete Old Docker Container
-        run: docker rm -f board-service || true
+        run: sudo docker rm -f board-service || true
       
       - name: Pull Docker Image (api-gateway)
-        run: docker pull kdman/api-gateway:latest
+        run: sudo docker pull kdman/api-gateway:latest
       - name: delete Old Docker Container
-        run: docker rm -f api-gateway || true
+        run: sudo docker rm -f api-gateway || true
       
       - name: Run Docker Compose
         run: sudo docker compose -f ./compose/docker-compose.yml up --remove-orphans -d
