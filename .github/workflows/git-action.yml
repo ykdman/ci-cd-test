@@ -28,7 +28,7 @@ jobs:
       - name: build the user-service image
         run: docker compose -f ./docker-compose.yml build user-service
       - name: tagging user-service image
-        run: docker tag user-service:latest kdman/user-service:latest
+        run: docker tag user-service kdman/user-service:latest
       - name: push user-service image to Docker Hub
         run: docker push kdman/user-service:latest
 
@@ -36,7 +36,7 @@ jobs:
       - name: build the public-data-service image
         run: docker compose -f ./docker-compose.yml build public-data-service
       - name: tagging public-data-service image
-        run: docker tag public-data-service:latest kdman/public-data-service:latest
+        run: docker tag public-data-service kdman/public-data-service:latest
       - name: push public-data-service image to Docker Hub
         run: docker push kdman/public-data-service:latest
 
@@ -44,14 +44,14 @@ jobs:
       - name: build the board-service image
         run: docker compose -f ./docker-compose.yml build board-service
       - name: tagging board-service image
-        run: docker tag board-service:latest kdman/board-service:latest
-      - name: push board-service image to Docker Hun
+        run: docker tag board-service kdman/board-service:latest
+      - name: push board-service image to Docker Hub
         run: docker push kdman/board-service:latest
 
       # api-gateway
       - name: build the api-gateway image
         run: docker compose -f ./docker-compose.yml build api-gateway
       - name: tagging api-gateway image
-        run: docker tag api-gateway:latest kdman/api-gateway:latest
+        run: docker tag api-gateway kdman/api-gateway:latest
       - name: push api-gateway image to Docker Hub
         run: docker push kdman/api-gateway:latest
