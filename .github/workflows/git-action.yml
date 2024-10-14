@@ -28,7 +28,7 @@ jobs:
       - name: build the user-service image
         run: docker compose -f ./docker-compose.yml build user-service
       - name : 도커 확인
-        run: docker images ls
+        run: docker image ls
 
       - name: tagging user-service image
         run: docker tag grabbme-be-user-service:latest kdman/user-service:latest
