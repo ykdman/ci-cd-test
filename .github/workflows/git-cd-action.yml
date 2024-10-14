@@ -1,0 +1,45 @@
+name : CD Pipeline
+
+on:
+  workflow_run:
+    workflows: ["CI Pipeline"]
+    types:
+      - completed
+
+jobs:
+
+  build:
+
+    runs-on: self-hosted
+
+    steps:
+      - name: Pull Docker Image (user-service)
+        run: docker pull kdman/user-service:latest
+      - name: Delete Old Docker Container
+        run: docker rm -f user-service || true
+      
+      - name: Pull Docker Image (public-data-service)
+        run: docker pull kdman/public-data-service:latest
+      - name: delete Old Docker Container
+        run: docker rm -f public-data-service || true
+      
+      - name: Pull Docker Image (chat-service)
+        run: docker pull kdman/chat-service:latest
+      - name: delete Old Docker Container
+        run: docker rm -f chat-service || true
+      
+      - name: Pull Docker Image (board-service)
+        run: docker pull kdman/board-service:latest
+      - name: delete Old Docker Container
+        run: docker rm -f board-service || true
+      
+      - name: Pull Docker Image (api-gateway)
+        run: docker pull kdman/api-gateway:latest
+      - name: delete Old Docker Container
+        run: docker rm -f api-gateway || true
+      
+      - name: Run Docker Compose
+        run: sudo docker compose -f ./compose/docker-compose.yml up --remove-orphans -d
+      
+      
+      

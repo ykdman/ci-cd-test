@@ -2,17 +2,13 @@ version: '3.8'
 
 services:
   api-gateway:
-    build:
-      context: ./apps/api-gateway
-      dockerfile: Dockerfile
+    image: kdman/api-gateway:latest  # Docker Hub 이미지
     container_name: api-gateway
     depends_on:
       - user-service
       - public-data-service
       - chat-service
       - board-service
-    volumes:
-      - ./:/usr/src/app
     ports:
       - '3000:3000'
     networks:
@@ -46,14 +42,11 @@ services:
       - JWT_SECRET=${JWT_SECRET}
       - CLIENT_MAIN_URL=${CLIENT_MAIN_URL}
       - CLIENT_SIGNUP_URL=${CLIENT_SIGNUP_URL}
-    restart: 'no'
+    restart: 'unless-stopped'
+
   user-service:
-    build:
-      context: ./apps/user
-      dockerfile: Dockerfile
+    image: kdman/user-service:latest
     container_name: user-service
-    volumes:
-      - ./:/usr/src/app
     networks:
       - default
     env_file:
@@ -65,14 +58,11 @@ services:
       - MYSQL_DATABASE=${MYSQL_DATABASE}
       - MYSQL_USER=${MYSQL_USERNAME}
       - MYSQL_PASSWORD=${MYSQL_PASSWORD}
-    restart: 'no'
+    restart: 'unless-stopped'
+
   public-data-service:
-    build:
-      context: ./apps/public-data
-      dockerfile: Dockerfile
+    image: kdman/public-data-service:latest
     container_name: public-data-service
-    volumes:
-      - ./:/usr/src/app
     networks:
       - default
     env_file:
@@ -84,15 +74,11 @@ services:
       - MYSQL_DATABASE=${MYSQL_DATABASE}
       - MYSQL_USER=${MYSQL_USERNAME}
       - MYSQL_PASSWORD=${MYSQL_PASSWORD}
-    restart: 'no'
+    restart: 'unless-stopped'
 
   chat-service:
-    build:
-      context: ./apps/chat
-      dockerfile: Dockerfile
+    image: kdman/chat-service:latest
     container_name: chat-service
-    volumes:
-      - ./:/usr/src/app
     networks:
       - default
     env_file:
@@ -108,15 +94,13 @@ services:
       - MONGO_PORT=${MONGO_PORT}
       - MONGO_USERNAME=${MONGO_USERNAME}
       - MONGO_PASSWORD=${MONGO_PASSWORD}
-      - MONGO_CHAT_URI=${MONGO_URI}
-    restart: 'no'
+      - MONGO_URI=${MONGO_URI}
+      - MONGO_CHAT_URI=${MONGO_CHAT_URI}
+    restart: 'unless-stopped'
+
   board-service:
-    build:
-      context: ./apps/board
-      dockerfile: Dockerfile
+    image: kdman/board-service:latest
     container_name: board-service
-    volumes:
-      - ./:/usr/src/app
     networks:
       - default
     env_file:
@@ -129,7 +113,7 @@ services:
       - MYSQL_DATABASE=${MYSQL_DATABASE}
       - MYSQL_USER=${MYSQL_USERNAME}
       - MYSQL_PASSWORD=${MYSQL_PASSWORD}
-    restart: 'no'
+    restart: 'unless-stopped'
 
 networks:
   default:
