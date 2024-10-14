@@ -10,6 +10,7 @@ jobs:
     env:
       DOCKER_USERNAME: ${{secrets.DOCKER_USERNAME}}
       DOCKER_PASSWORD: ${{secrets.DOCKER_PASSWORD}}
+      REPOSITORY_NAME: ${{github.repository}}
 
     steps:
       - uses: actions/checkout@v3
@@ -29,9 +30,11 @@ jobs:
         run: docker compose -f ./docker-compose.yml build user-service
       - name : 도커 확인
         run: docker image ls
+      - name : 레포명 확인
+        run: echo $REPOSITORY_NAME
 
       - name: tagging user-service image
-        run: docker tag grabbme-be-user-service:latest kdman/user-service:latest
+        run: docker tag $REPOSITORY_NAME-user-service:latest kdman/user-service:latest
       - name: push user-service image to Docker Hub
         run: docker push kdman/user-service:latest
 
