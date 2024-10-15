@@ -15,7 +15,7 @@ import { ChatService } from './chat.service';
         return ClientProxyFactory.create({
           transport: Transport.TCP,
           options: {
-            host: 'https://grabbme.store',
+            host: 'localhost',
             port: Number(process.env.CHAT_PORT),
           },
         });

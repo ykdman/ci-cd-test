@@ -27,7 +27,7 @@ import {
         name: 'PUBLIC_DATA_SERVICE',
         transport: Transport.TCP,
         options: {
-          host: 'https://grabbme.store',
+          host: 'localhost',
           port: Number(process.env.PUBLIC_DATA_PORT),
         },
       },

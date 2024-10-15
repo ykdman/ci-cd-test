@@ -17,7 +17,7 @@ import { AuthModule } from '../auth/auth.module';
         return ClientProxyFactory.create({
           transport: Transport.TCP,
           options: {
-            host: 'https://grabbme.store', // 'user-service'
+            host: 'localhost', // 'user-service'
             port: Number(process.env.USER_PORT),
           },
         });
