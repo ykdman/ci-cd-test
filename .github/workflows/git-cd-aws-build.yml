@@ -22,4 +22,9 @@ jobs:
           script: |
             cd ci-cd-test
             git pull
-            npm run start:services
+            npm run build api-gateway
+            npm run build public-data
+            npm run build user
+            npm run build board
+            npm run build chat
+            npm run start:nodeservice
