@@ -15,7 +15,7 @@ import { PublicDataService } from './public-data.service';
         return ClientProxyFactory.create({
           transport: Transport.TCP,
           options: {
-            host: 'localhost',
+            host: 'https://grabbme.store',
             port: Number(process.env.PUBLIC_DATA_PORT),
           },
         });

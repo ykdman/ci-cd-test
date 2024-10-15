@@ -27,4 +27,3 @@ jobs:
             npm run build user
             npm run build board
             npm run build chat
-            npm run start:nodeservice

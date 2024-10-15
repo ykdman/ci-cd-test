@@ -11,7 +11,7 @@ async function bootstrap() {
   const app = await NestFactory.createMicroservice<MicroserviceOptions>(AppModule, {
     transport: Transport.TCP,
     options: {
-      host: 'localhost', // 'user-service',
+      host: 'https://grabbme.store', // 'user-service',
       port: PORT,
     },
   });

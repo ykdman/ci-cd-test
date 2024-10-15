@@ -13,7 +13,7 @@ import { BoardService } from './board.service';
         return ClientProxyFactory.create({
           transport: Transport.TCP,
           options: {
-            host: 'localhost', // 'board-service'
+            host: 'https://grabbme.store', // 'board-service'
             port: Number(process.env.BOARD_PORT),
           },
         });

@@ -16,7 +16,7 @@ import { User } from './entities/user.entity';
         name: 'USER_SERVICE',
         transport: Transport.TCP,
         options: {
-          host: 'localhost',
+          host: 'https://grabbme.store',
           port: Number(process.env.USER_PORT),
         },
       },
