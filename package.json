@@ -27,7 +27,8 @@
     "start:user": "nest start user",
     "start:chat": "nest start chat",
     "start:board": "nest start board",
-    "start:services": "concurrently \"npm run start:api-gateway \" \"npm run start:user\" \"npm run start:public-data\"  \"npm run start:board\" \"npm run start:chat\" "
+    "start:services": "concurrently \"npm run start:api-gateway\" \"npm run start:user\" \"npm run start:public-data\"  \"npm run start:board\" \"npm run start:chat\"",
+    "start:nodeservice": "concurrently \"node dist/apps/api-gateway/main.js\" \"node dist/apps/public-data/main.js\" "
   },
   "dependencies": {
     "@nestjs/common": "^10.0.0",
