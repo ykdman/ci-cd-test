@@ -13,7 +13,7 @@ import { Board } from './entities/board.entity';
         name: 'BOARD_SERVICE',
         transport: Transport.TCP,
         options: {
-          host: process.env.BOARD_HOST,
+          host: 'localhost',
           port: Number(process.env.BOARD_PORT),
         },
       },

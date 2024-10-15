@@ -1,70 +1,69 @@
-name: Docker Image CI
+# name: Docker Image CI
+# on:
+#   push:
+#     branches: ['main']
 
-on:
-  push:
-    branches: ['main']
+# jobs:
+#   build:
+#     runs-on: ubuntu-20.04
+#     env:
+#       DOCKER_USERNAME: ${{secrets.DOCKER_USERNAME}}
+#       DOCKER_PASSWORD: ${{secrets.DOCKER_PASSWORD}}
+#       REPOSITORY_NAME: ${{github.repository}}
 
-jobs:
-  build:
-    runs-on: ubuntu-20.04
-    env:
-      DOCKER_USERNAME: ${{secrets.DOCKER_USERNAME}}
-      DOCKER_PASSWORD: ${{secrets.DOCKER_PASSWORD}}
-      REPOSITORY_NAME: ${{github.repository}}
+#     steps:
+#       - uses: actions/checkout@v3
+#       - name: Login Docker Hub
+#         run: docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
 
-    steps:
-      - uses: actions/checkout@v3
-      - name: Login Docker Hub
-        run: docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
-      
-      - name: debug docker name
-        run: echo $DOCKER_USERNAME
+#       - name: debug docker name
+#         run: echo $DOCKER_USERNAME
 
-      - name: Extract repository name
-        id: extract_repo_name
-        run: echo "REPO_NAME=$(echo ${{ github.repository }} | cut -d'/' -f2)" >> $GITHUB_ENV
-      
-      - name: write env vars
-        run: |
-          touch ./.env
-          echo "${{secrets.ENV_VARS}}" > ./.env
+#       - name: Extract repository name
+#         id: extract_repo_name
+#         run: echo "REPO_NAME=$(echo ${{ github.repository }} | cut -d'/' -f2)" >> $GITHUB_ENV
 
-      # user-service 빌드 및 푸시
-      - name: build the user-service image
-        run: docker compose -f ./docker-compose.yml build user-service
-      
-      - name: tagging user-service image
-        run: docker tag $REPO_NAME-user-service:latest kdman/user-service:latest
-        
-      - name: push user-service image to Docker Hub
-        run: docker push kdman/user-service:latest
+#       - name: write env vars
+#         run: |
+#           touch ./.env
+#           echo "${{secrets.ENV_VARS}}" > ./.env
 
-      # public-data-service
-      - name: build the public-data-service image
-        run: docker compose -f ./docker-compose.yml build public-data-service
+#       # user-service 빌드 및 푸시
+#       - name: build the user-service image
+#         run: docker compose -f ./docker-compose.yml build user-service
 
-      - name: tagging public-data-service image
-        run: docker tag $REPO_NAME-public-data-service:latest kdman/public-data-service:latest
+#       - name: tagging user-service image
+#         run: docker tag $REPO_NAME-user-service:latest kdman/user-service:latest
 
-      - name: push public-data-service image to Docker Hub
-        run: docker push kdman/public-data-service:latest
+#       - name: push user-service image to Docker Hub
+#         run: docker push kdman/user-service:latest
 
-      # board-service
-      - name: build the board-service image
-        run: docker compose -f ./docker-compose.yml build board-service
+#       # public-data-service
+#       - name: build the public-data-service image
+#         run: docker compose -f ./docker-compose.yml build public-data-service
 
-      - name: tagging board-service image
-        run: docker tag $REPO_NAME-board-service:latest kdman/board-service:latest
+#       - name: tagging public-data-service image
+#         run: docker tag $REPO_NAME-public-data-service:latest kdman/public-data-service:latest
 
-      - name: push board-service image to Docker Hub
-        run: docker push kdman/board-service:latest
+#       - name: push public-data-service image to Docker Hub
+#         run: docker push kdman/public-data-service:latest
 
-      # api-gateway
-      - name: build the api-gateway image
-        run: docker compose -f ./docker-compose.yml build api-gateway
+#       # board-service
+#       - name: build the board-service image
+#         run: docker compose -f ./docker-compose.yml build board-service
 
-      - name: tagging api-gateway image
-        run: docker tag $REPO_NAME-api-gateway:latest kdman/api-gateway:latest
+#       - name: tagging board-service image
+#         run: docker tag $REPO_NAME-board-service:latest kdman/board-service:latest
 
-      - name: push api-gateway image to Docker Hub
-        run: docker push kdman/api-gateway:latest
+#       - name: push board-service image to Docker Hub
+#         run: docker push kdman/board-service:latest
+
+#       # api-gateway
+#       - name: build the api-gateway image
+#         run: docker compose -f ./docker-compose.yml build api-gateway
+
+#       - name: tagging api-gateway image
+#         run: docker tag $REPO_NAME-api-gateway:latest kdman/api-gateway:latest
+
+#       - name: push api-gateway image to Docker Hub
+#         run: docker push kdman/api-gateway:latest

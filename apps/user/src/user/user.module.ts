@@ -16,7 +16,7 @@ import { User } from './entities/user.entity';
         name: 'USER_SERVICE',
         transport: Transport.TCP,
         options: {
-          host: process.env.USER_HOST,
+          host: 'localhost',
           port: Number(process.env.USER_PORT),
         },
       },

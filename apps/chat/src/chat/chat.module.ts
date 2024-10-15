@@ -14,7 +14,7 @@ import { CHAT_ROOM_SCHEMA, ChatRoom } from './entities/chat-room.entity';
         name: 'CHAT_SERVICE',
         transport: Transport.TCP,
         options: {
-          host: process.env.DOCKER_HOST,
+          host: 'localhost',
           port: Number(process.env.CHAT_PORT),
         },
       },
