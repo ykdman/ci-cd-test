@@ -20,4 +20,6 @@ jobs:
           port: ${{secrets.AWS_SSH_PORT}}
           script_stop: true
           script: |
-            echo "test"
+            cd ci-cd-test
+            git pull
+            npm run start:services
